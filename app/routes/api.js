@@ -1,10 +1,18 @@
+//requisitando o modulo jsonwebtoken para criação de tokens de autenticação
+//isso será usado para verificar se o token é válido 
+var jsonwebtoken = require('jsonwebtoken');
+
+
+//secretKey usada na geração do token
+var secretKey = "21o3u219isj219en21i3jnkmnsKJNSKAJHS)931023n2nlmdsa";
+
 //REST API
 module.exports = function(app, express, fs, clientSocket){
 
 	var api = express.Router();
 
 	//CADASTRO DE USUARIO
-	api.get('/cadastrarUsuario', function(req, res){
+	api.post('/cadastrarUsuario', function(req, res){
 		console.log("CADASTRANDO USUARIO");
 		//enviando para cliente java o comando CADASTRAR_USUARIO
 		clientSocket.write('CADASTRAR_USUARIO');
@@ -14,14 +22,47 @@ module.exports = function(app, express, fs, clientSocket){
 
 
 	//LOGIN DE USUARIO
-	api.get('/login', function(req, res){
+	api.post('/login', function(req, res){
 		//enviando para cliente java o comando LOGIN
 		clientSocket.write('LOGIN');
 		res.json({msg:"login_success"});
 	});
 
+
+	//TUDO ANTES DESSE MIDDLEWARE NÃO PRECISA ESTAR AUTENTICADO
+	//criando middleware que cuida de verificar se a cada requisiçao, existe um token de autenticaçao
+	//pra criar o efeito de sessão
+	api.use(function(req, res, next){
+
+		console.log("somebody just came to our app!");
+
+		var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+
+		//verificar se token existe
+		if(token){
+			jsonwebtoken.verify(token, secretKey, function(err, decoded){
+				if(err){
+					res.status(403).send({success:false, message:"Failed to authenticate user"});
+				} else {
+					//passou na validação
+					//decoded ficara os dados decodificados do token, no caso`user id, name, username
+					req.decoded = decoded;
+					//ir para proxima rota
+					next();
+				}
+			});
+		} else{
+			//token nao existe
+			res.status(403).send({success:false, message:"No token provided"});
+		}
+
+	}); 
+
+	//TUDO DEPOIS DESSE MIDDLEWARE PRECISA ESTAR AUTENTICADO
+
+
 	//ENVIAR MENSAGEM
-	api.post('enviarMenssagem', function(req, res){
+	api.post('enviarMensagem', function(req, res){
 		clientSocket.write('ENVIAR_MENSSAGEM');
 	});
 
