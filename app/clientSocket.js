@@ -1,8 +1,18 @@
+var jwt = require('jwt-simple');
+var secretKey = new Buffer("vmvini").toString('utf8');
+
+function decryptToken(token){
+		
+		var decoded = jwt.decode(token, secretKey);
+		console.log(decoded);
+		//se nao lançar erro, é pq decodificou corretamente.
+}
+
 module.exports = function(io){
 
 
 	//SOCKET DE CONEXAO COM O SERVIDOR JAVA
-	var conn = require('net').createConnection(9090);
+	var conn = require('net').createConnection(9091);
 
 	conn.on('connect', function(){
 		console.log("conectado ao servidor");
@@ -16,6 +26,7 @@ module.exports = function(io){
 		para que o angular js reflita o evento para o usuario
 		
 	*/
+
 	conn.on('data', function(msg){
 		
 			console.log("mensagem recebida: |" + msg + "|");
@@ -27,8 +38,11 @@ module.exports = function(io){
 			else if( msg == "COD2")
 				//io.emit('COD2')
 				console.log("comando COD2 executando");
-			else
-				console.log("comando desconhecido: " + msg);
+			else{
+				//caso msg seja um token, tentar decodifica-lo
+				decryptToken(new String(msg));
+				
+			}
 	});
 
 	conn.on('error', function(err){

@@ -32,12 +32,12 @@ app.get('*', function(req, res){
 });
 
 //SERVIDOR WEB ESCUTANDO NA PORTA 3010
-http.listen(3010, function(err){
+http.listen(3000, function(err){
 	if(err){
 		console.log(err);
 	}
 	else{
-		console.log("Escutando na porta 3010");
+		console.log("Escutando na porta 3000");
 	}
 });
 

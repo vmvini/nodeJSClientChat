@@ -1,11 +1,3 @@
-//requisitando o modulo jsonwebtoken para criação de tokens de autenticação
-//isso será usado para verificar se o token é válido 
-var jsonwebtoken = require('jsonwebtoken');
-
-
-//secretKey usada na geração do token
-var secretKey = "21o3u219isj219en21i3jnkmnsKJNSKAJHS)931023n2nlmdsa";
-
 //REST API
 module.exports = function(app, express, fs, clientSocket){
 
@@ -32,7 +24,7 @@ module.exports = function(app, express, fs, clientSocket){
 	//TUDO ANTES DESSE MIDDLEWARE NÃO PRECISA ESTAR AUTENTICADO
 	//criando middleware que cuida de verificar se a cada requisiçao, existe um token de autenticaçao
 	//pra criar o efeito de sessão
-	api.use(function(req, res, next){
+	/*api.use(function(req, res, next){
 
 		console.log("somebody just came to our app!");
 
@@ -57,7 +49,7 @@ module.exports = function(app, express, fs, clientSocket){
 		}
 
 	}); 
-
+	*/
 	//TUDO DEPOIS DESSE MIDDLEWARE PRECISA ESTAR AUTENTICADO
 
 
