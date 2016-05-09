@@ -1,9 +1,42 @@
-<html>
-	<head>
-	</head>
+<!DOCTYPE html>
+<html ng-app="MyApp">
+<head>
+	<base href="/" />
 
-	<body>
-		<h1>ola</h1>
-	</body>
+
+	<!-- ANGULAR --> 
+	<script type="text/javascript" src="app/angular.1.5.0.min.js"></script>
+	<script type="text/javascript" src="app/angular-route.min.js"></script>
+
+	<!-- SOCKET IO -->
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+
+	<!-- ANGULAR SERVICES / CONTROLLERS / ROTAS / APP -->
+	<!-- Directives -->
+	
+	<!-- Services -->
+	<script type="text/javascript" src="app/services/authService.js"></script>
+	
+	<!-- Controllers -->
+	<script type="text/javascript" src="app/controllers/mainController.js"></script>
+	<script type="text/javascript" src="app/controllers/meCtrl.js"></script>
+
+
+	<!-- ROUTES -->
+	<script type="text/javascript" src="app/app.routes.js"></script>
+
+	<!-- APP -->
+	<!-- para entender o caminho app/app.js veja: app.use(express.static(__dirname + '/public')); em server.js -->
+	<script type="text/javascript" src="app/app.js"></script>
+
+
+</head>
+
+<body>
+
+<div class="page_content" ng-view></div>
+
+</body>
 
 </html>

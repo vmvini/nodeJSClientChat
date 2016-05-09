@@ -1,0 +1,32 @@
+<h1>Login</h1>
+
+<form ng-controller="MainController as login" name="login.loginForm" ng-submit="login.doLogin()" novalidate>
+
+	Email: <input ng-required="true" name="loginEmail" ng-model="login.loginData.email" type="email" class="form-control" id="loginEmail" placeholder="Email">
+
+	Senha: <input ng-required="true" name="loginPassword"  ng-model="login.loginData.senha" type="password" class="form-control" id="loginPassword" placeholder="senha">
+
+
+	<button ng-disabled="login.loginForm.$invalid" type="submit">Entrar</button>
+
+
+
+</form>
+
+
+<br>
+<h1>Cadastro de Usuario</h1>
+<form ng-controller="MainController as reg" name="reg.regForm" ng-submit="reg.doRegist()" novalidate>
+
+	Nome: <input ng-required="true"  ng-model="reg.new_user.nome" type="text" id="regName" placeholder="Email">
+
+	Email: <input ng-required="true"  ng-model="reg.new_user.email" type="email" class="form-control"  placeholder="Email">
+
+	Senha: <input ng-required="true"  ng-model="reg.new_user.senha" type="password" class="form-control"  placeholder="senha">
+
+
+	<button ng-disabled="reg.regForm.$invalid" type="submit">Cadastrar</button>
+
+
+
+</form>
