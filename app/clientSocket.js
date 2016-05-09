@@ -1,12 +1,3 @@
-var jwt = require('jwt-simple');
-var secretKey = new Buffer("marcusviniv").toString('utf8');
-
-function decryptToken(token){
-		
-		var decoded = jwt.decode(token, secretKey);
-		console.log(decoded);
-		//se nao lançar erro, é pq decodificou corretamente.
-}
 
 module.exports = function(io)
 {
@@ -30,7 +21,7 @@ module.exports = function(io)
 				io.emit("sessiontoken", {token:token} );
 			}
 			else{
-				io.emit(msg, {});
+				io.emit(new String(msg), {});
 			}
 			
 			
