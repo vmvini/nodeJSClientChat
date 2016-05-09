@@ -14,6 +14,12 @@ angular.module('appRoutes', ['ngRoute'])
 			templateUrl: 'app/views/pages/me.html',
 			controller: 'MeController',
 			controllerAs:'meCtrl'
+		})
+
+		.when('/grupo/:grupoId', {
+			templateUrl: 'app/views/pages/grupo.html',
+			controller: 'GrupoController',
+			controllerAs: 'grupoCtrl'
 		});
 	
 

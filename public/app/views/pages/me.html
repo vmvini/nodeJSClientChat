@@ -1,4 +1,32 @@
-<h1>Usuario LOGADO!</h1>
+<h1>BEM VINDO: {{meCtrl.loggedUser.sub}}</h1>
 
 
 <button ng-click="meCtrl.doLogout()" >LOGOFF</button>
+
+<br>
+
+<ul>
+<!-- LISTA DE GRUPOS -->
+	
+
+	
+	<li>
+		<a href="/grupo/grupo1">Grupo 1</a>
+		<button ng-click="meCtrl.inscrever(1)">Inscrever</button>
+		<hr>
+	</li>
+
+	<li>
+		<a href="/grupo/grupo2">Grupo 2</a>
+		<button ng-click="meCtrl.inscrever(2)">Inscrever</button>
+		<hr>
+	</li>
+
+	<li>
+		<a href="/grupo/grupo3">Grupo 3</a>
+		<button ng-click="meCtrl.inscrever(3)">Inscrever</button>
+
+	</li>
+
+
+</ul>

@@ -80,19 +80,25 @@ module.exports = function(app, express, fs, clientSocket, io){
 
 
 	//ENVIAR MENSAGEM
-	api.post('enviarMensagem', function(req, res){
+	api.post('/enviarMensagem', function(req, res){
 		
         var token = req.body.token || req.param('token') || req.headers['x-access-token'];
 
         var command = "escreverMensagem?email="+req.decoded.email+"&grupoId="+req.body.grupoId+"&conteudo="+req.body.conteudo+"&sessionToken="+token;
-		clientSocket.write('ENVIAR_MENSSAGEM');
+		clientSocket.destroy();
+		clientSocket = require('../clientSocket.js')(io);
+		
+		clientSocket.write(command);
 	});
 
 	//INSCREVER EM GRUPO
-	api.post('inscreverEmGrupo', function(req, res){
+	api.post('/inscreverEmGrupo', function(req, res){
 		var token = req.body.token || req.param('token') || req.headers['x-access-token'];
 		
-		var command = "entrarGrupo?email="+req.decoded.email+"&grupoId="+req.body.grupoId+"&sessionToken="+token;
+		var command = "entrarGrupo?email="+req.body.email+"&grupoId="+req.body.grupoId+"&sessionToken="+token;
+		clientSocket.destroy();
+		clientSocket = require('../clientSocket.js')(io);
+		
 		clientSocket.write(command);
 		res.json({msg:"success"});
 	});
