@@ -19,8 +19,11 @@ app.use(express.static(__dirname + '/public'));
 //CRIANDO SOCKET DE CONEXÃO COM O CLIENTE JAVA.
 var clientSocket = require('./app/clientSocket')(io); //CLIENTE DO SOCKET DO JAVA
 
+//criando porta de entrada
+var serverSocket = require('./app/serverSocket.js')(io);
+
 //INSTANCIANDO REST API
-var api = require('./app/routes/api')(app, express, fs, clientSocket );
+var api = require('./app/routes/api')(app, express, fs, clientSocket, io );
 app.use('/api', api);
 
 
@@ -32,12 +35,12 @@ app.get('*', function(req, res){
 });
 
 //SERVIDOR WEB ESCUTANDO NA PORTA 3010
-http.listen(3000, function(err){
+http.listen(3010, function(err){
 	if(err){
 		console.log(err);
 	}
 	else{
-		console.log("Escutando na porta 3000");
+		console.log("Escutando na porta 3010");
 	}
 });
 

@@ -1,13 +1,19 @@
 //REST API
-module.exports = function(app, express, fs, clientSocket){
+module.exports = function(app, express, fs, clientSocket, io){
 
 	var api = express.Router();
 
 	//CADASTRO DE USUARIO
 	api.post('/cadastrarUsuario', function(req, res){
-		console.log("CADASTRANDO USUARIO");
-		//enviando para cliente java o comando CADASTRAR_USUARIO
-		clientSocket.write('CADASTRAR_USUARIO');
+		
+		var command = "cadastrarUsuario?nome="+req.body.nome+"&email="+req.body.email+"&senha="+req.body.senha;
+		
+		clientSocket.destroy();
+		clientSocket = require('../clientSocket.js')(io);
+		
+		clientSocket.write(command);
+
+		
 		//enviando resposta para pagina web
 		res.json({msg:"success"});
 	});
@@ -15,8 +21,12 @@ module.exports = function(app, express, fs, clientSocket){
 
 	//LOGIN DE USUARIO
 	api.post('/login', function(req, res){
-		//enviando para cliente java o comando LOGIN
-		clientSocket.write('LOGIN');
+		var command = "hasUsuario?email="+req.body.email+"&senha="+req.body.senha;
+		//verificar antes se socket ta ativo
+		clientSocket.destroy();
+		clientSocket = require('../clientSocket.js')(io);
+		
+		clientSocket.write(command);
 		res.json({msg:"login_success"});
 	});
 
@@ -55,12 +65,23 @@ module.exports = function(app, express, fs, clientSocket){
 
 	//ENVIAR MENSAGEM
 	api.post('enviarMensagem', function(req, res){
+		//"escreverMensagem?email=" + usrEmail + "&grupoId=" + groupId+"&dateTime="+dateTime
+                //+"&conteudo="+conteudo;
+
+        var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+
+        var command = "escreverMensagem?email="+req.decoded.email+"&grupoId="+req.body.grupoId+"&conteudo="+req.body.conteudo+"&sessionToken="+token;
 		clientSocket.write('ENVIAR_MENSSAGEM');
 	});
 
 	//INSCREVER EM GRUPO
 	api.post('inscreverEmGrupo', function(req, res){
+		var token = req.body.token || req.param('token') || req.headers['x-access-token'];
 
+
+		var command = "entrarGrupo?email="+req.decoded.email+"&grupoId="+req.body.grupoId+"&sessionToken="+token;
+		clientSocket.write(command);
+		res.json({msg:"success"});
 	});
 
 	return api;
