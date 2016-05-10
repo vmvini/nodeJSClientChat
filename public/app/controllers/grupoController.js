@@ -15,7 +15,7 @@ angular.module('grupoModule', [])
 	vm.grupoId = $routeParams.grupoId;
 
 
-	vm.messages = {};
+	vm.messages = [];
 	/*
 		messages = {
 			msg : {
@@ -30,14 +30,24 @@ angular.module('grupoModule', [])
 			}
 
 		}
+
+		OU 
+
+		messages = [] // array de strings
 	*/
 	vm.mensagem = { conteudo: {}, email: vm.loggedUser.sub, grupoId: vm.grupoId };
 
 	socketio.on("messages", 
 		function(data){
 				console.log("novas mensagens");
-				console.log(data);
+				//console.log(data);
+				vm.messages = splitMessage(data.all);
 		});
+
+
+	function splitMessage(msg){
+		return msg.split(';');
+	}
 
 	vm.sendMessage = function(){
 		
