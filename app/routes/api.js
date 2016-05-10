@@ -84,11 +84,12 @@ module.exports = function(app, express, fs, clientSocket, io){
 		
         var token = req.body.token || req.param('token') || req.headers['x-access-token'];
 
-        var command = "escreverMensagem?email="+req.decoded.email+"&grupoId="+req.body.grupoId+"&conteudo="+req.body.conteudo+"&sessionToken="+token;
+        var command = "escreverMensagem?email="+req.body.email+"&grupoId="+req.body.grupoId+"&conteudo="+req.body.conteudo+"&sessionToken="+token;
 		clientSocket.destroy();
 		clientSocket = require('../clientSocket.js')(io);
 		
 		clientSocket.write(command);
+		res.json({msg:"success"});
 	});
 
 	//INSCREVER EM GRUPO

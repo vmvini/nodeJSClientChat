@@ -1,0 +1,32 @@
+<h1>BEM VINDO: {{grupoCtrl.loggedUser.sub}}</h1>
+
+
+<button ng-click="grupoCtrl.doLogout()" >LOGOFF</button>
+
+<h1>Mensagens do grupo {{ grupoCtrl.grupoId }}</h1>
+
+<ul>
+
+
+ 	<li ng-repeat="msg in grupoCtrl.messages" >
+
+ 		<span style="color:grey;">{{ msg.emissor }} : </span> 
+ 		<span style="color:red;">{{ msg.date }} -> </span>
+ 		<span style="color:black;"> {{ msg.content }} </span>
+
+ 		<hr>
+
+ 	</li>
+
+</ul>
+
+<form ng-controller="GrupoController as grupo" name="grupo.form" ng-submit="grupo.sendMessage()" novalidate>
+
+	Email: <input ng-required="true" ng-model="grupo.mensagem.conteudo" type="text" placeholder="digite aqui...">
+
+
+	<button ng-disabled="grupo.form.$invalid" type="submit">Enviar mensagem</button>
+
+</form>
+
+

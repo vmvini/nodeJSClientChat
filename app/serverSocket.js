@@ -13,13 +13,19 @@ module.exports = function(io)
     	console.log('um cliente conectou');
     
     	socket.on('data', function(data){
-    	    //SO VAI RECEBER MENSAGENS PENDENTES
-    	    io.emit('messages', {all: data});
+    	    //SO VAI RECEBER MENSAGENS DO CHAT
+    	    console.log("");
+    	    io.emit('messages', { all: new String(data) });
+			socket.write("SUCCESS");
 
     	});
 	});
 
 
-	var server;
+
+server.listen(port);
+
+
+	return server;
 
 }
